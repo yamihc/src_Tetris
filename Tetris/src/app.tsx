@@ -16,8 +16,34 @@ function App() {
 
   const [tictac, setTicTac] = useState(true)
 
-  //console.dir(tetrisGrille);
-    
+  const codeCouleur = ( code: number):string => {
+
+    switch (code) {
+      case 0 :
+        return 'black';
+      case 1 : 
+        return '#FF0000';
+      case 2 : 
+        return '#0000FF';
+      case 3 : 
+        return '#00FF00';
+      case 4 : 
+        return '#FFFF00';
+      case 5 : 
+        return '#00FFFF';
+      case 6 : 
+        return '#FF00FF';
+      case 7 : 
+        return '#FFA500';
+
+      default:
+        return 'white';
+        
+    }
+
+  }
+
+
   const draw = (ctx: CanvasRenderingContext2D) => {
 
     ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
@@ -25,36 +51,24 @@ function App() {
     tetrisGrille.grille.forEach((ligne,i) => { 
       ligne.forEach((cel,j) => {
 
-        switch (cel) {
-          case 0 :
-            ctx.fillStyle = 'black';
-            break;
-          case 1 : 
-            ctx.fillStyle = 'red';
-            break;
-          default:
-            ctx.fillStyle = 'white';
-            break;
-        }
+        ctx.fillStyle = codeCouleur(cel);
 
         ctx.fillRect(1+j*scale,1+i*scale,scale-2,scale-2)
         
       });
 
-      
+      ctx.fillStyle = codeCouleur(tetrisGrille.tetra.color);
       tetrisGrille.tetra.getAllPosition().forEach( cel => {
-        ctx.fillStyle = 'yellow' ;
+        
         ctx.fillRect(1+cel.y*scale,1+cel.x*scale,scale-2,scale-2)
 
       } )
-
-     // tetrisGrille.tetraDown();
       
     });
 
   }
 
-  const keyBoardEvent = ({key}) => {
+  const keyBoardEvent = ({key}: any) => {
 
     switch (key) {
       case 'ArrowLeft':
@@ -74,9 +88,7 @@ function App() {
         break;
     }
 
-   // console.log(key);
   }
-  
 
   const css = {
     border: '5px solid black',
@@ -84,12 +96,12 @@ function App() {
 
 
   useEffect( () => {
-    setTimeout( () => {
-    //  console.dir(tetrisGrille.tetra.getAllPosition())
-      tetrisGrille.tetraMvDown();
-      setTicTac(!tictac)
-    },2000)
-
+    if (tetrisGrille.isGame) {
+      setTimeout( () => {
+        tetrisGrille.tetraMvDown();
+        setTicTac(!tictac)
+      },2000)
+    }
 
   },[tictac]) 
 
@@ -107,9 +119,6 @@ function App() {
   
 }
 
-function keyBoardEventA() {
-  console.log('test')
-}
 
 
 export default App

@@ -15,8 +15,8 @@ const initalBoard = (): number[][] => {
 
 const boardGame = signal(new Grille(initalBoard()));
 
-const tetramino = signal([{x:3,y:5}]);  // non utilisé
+//const tetramino = signal([{x:3,y:5}]);  // non utilisé
 
 
 
-export { hauteur, largeur, boardGame, tetramino }
+export { hauteur, largeur, boardGame }

@@ -5,13 +5,12 @@ const axe = [{x:-1,y:0},{x:0,y:-1},{x:1,y:0},{x:0,y:1}];
 const diag = [{x:-1,y:-1},{x:1,y:-1},{x:1,y:1},{x:-1,y:1}];
 
 
-
 export class Tetramino {
    core : coord ;
    perif : Bloc[] ;
-   color : string ;
+   color : number ;
 
-   constructor(position: coord, perifs: Bloc[], color: string){
+   constructor(position: coord, perifs: Bloc[], color: number){
       this.core = position ;
       this.perif = perifs ;
       this.color = color;
@@ -90,48 +89,48 @@ export class Tetramino {
 export class TetraminoCube extends Tetramino {
   
    constructor(position: coord){
-      super(position,[new Bloc(axe,3,1),new Bloc(axe,2,1),new Bloc(diag,2,1)],'blue');
+      super(position,[new Bloc(axe,3,1),new Bloc(axe,2,1),new Bloc(diag,2,1)],1);
    }
 }
 
 export class TetraminoLigne extends Tetramino {
   
    constructor(position: coord){
-     super(position,[new Bloc(axe,0,1),new Bloc(axe,2,1),new Bloc(axe,2,2)],'yellow');
+     super(position,[new Bloc(axe,0,1),new Bloc(axe,2,1),new Bloc(axe,2,2)],2);
    }
 }
  
 export class TetraminoLGauche extends Tetramino {
   
    constructor(position: coord){
-     super(position,[new Bloc(axe,0,1),new Bloc(axe,2,1),new Bloc(diag,1,1)],'brown');
+     super(position,[new Bloc(axe,0,1),new Bloc(axe,2,1),new Bloc(diag,1,1)],3);
    }
 }
 
 export class TetraminoLDroit extends Tetramino {
   
    constructor(position: coord){
-     super(position,[new Bloc(axe,0,1),new Bloc(axe,2,1),new Bloc(diag,2,1)],'pink');
+     super(position,[new Bloc(axe,0,1),new Bloc(axe,2,1),new Bloc(diag,2,1)],4);
    }
 }
 
 export class TetraminoLT extends Tetramino {
   
    constructor(position: coord){
-     super(position,[new Bloc(axe,0,1),new Bloc(axe,1,1),new Bloc(axe,3,1)],'violet');
+     super(position,[new Bloc(axe,0,1),new Bloc(axe,1,1),new Bloc(axe,3,1)],5);
    }
 }
 
 export class TetraminoSGauche extends Tetramino {
   
    constructor(position: coord){
-     super(position,[new Bloc(axe,0,1),new Bloc(axe,1,1),new Bloc(diag,1,1)],'red');
+     super(position,[new Bloc(axe,0,1),new Bloc(axe,1,1),new Bloc(diag,1,1)],6);
    }
 }
 
 export class TetraminoSDroit extends Tetramino {
   
    constructor(position: coord){
-     super(position,[new Bloc(axe,0,1),new Bloc(axe,3,1),new Bloc(diag,2,1)],'blue');
+     super(position,[new Bloc(axe,0,1),new Bloc(axe,3,1),new Bloc(diag,2,1)],7);
    }
 }

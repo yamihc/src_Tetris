@@ -7,15 +7,19 @@ const initialCoord: coord = {x:2,y:3};
 class Grille {
     grille: number[][];
     tetra: Tetramino;
+    isGame : boolean;
 
     constructor(grille:number[][]) {
         this.grille = grille;
         this.tetra= this.randomTetra({...initialCoord});
+        this.isGame = true ;
     }
 
     newTetra() {
-       // console.log("newTetra " + initialCoord.x + " " + initialCoord.y)
-        this.tetra= this.randomTetra({...initialCoord});
+        if (this.isGame) {
+            this.tetra= this.randomTetra({...initialCoord});
+            if (!this.isValidMov(this.tetra.getAllPosition())) this.isGame = false;
+        }
     }
 
     randomTetra(position : coord): Tetramino {
@@ -44,12 +48,7 @@ class Grille {
 
 
     isValidMov(vBloc: coord[]): boolean {
-        // let log: string = "";
-        // vBloc.forEach( bl => {
-        //     log += bl.x + " ";
-        // })
-        // console.log("virtuel " + log);
-
+        
         let ret = true;
         
         vBloc.forEach( bl => {
@@ -100,7 +99,7 @@ class Grille {
 
     fixTetramino() {
         this.tetra.getAllPosition().forEach( bl => {
-            this.grille[bl.x][bl.y] = 1 ;
+            this.grille[bl.x][bl.y] = this.tetra.color ;
         })
 
         this.removeLines();
