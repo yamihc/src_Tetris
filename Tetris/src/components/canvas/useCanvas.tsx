@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "preact/hooks"
 
 
-const useCanvas = draw => {
+const useCanvas = (draw:any) => {
     
     const refCanvas = useRef<HTMLCanvasElement>();
 

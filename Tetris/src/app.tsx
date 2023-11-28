@@ -1,5 +1,4 @@
 
-
 import { useEffect, useState } from 'preact/hooks';
 import './app.css';
 
@@ -7,20 +6,21 @@ import Canvas from './components/canvas/Canvas';
 
 import { boardGame, hauteur, largeur } from './signals/tetrisGrille';
 
+const scale = 50;
 
 
 function App() {
 
   const tetrisGrille = boardGame.value;
-  const scale = 50;
 
-  const [tictac, setTicTac] = useState(true)
+  const [tictac, setTicTac] = useState(true);
+  const [focus,setFocus] = useState(false);
 
   const codeCouleur = ( code: number):string => {
 
     switch (code) {
       case 0 :
-        return 'black';
+        return '#2F2F2F';
       case 1 : 
         return '#FF0000';
       case 2 : 
@@ -92,15 +92,18 @@ function App() {
 
   const css = {
     border: '5px solid black',
+    backgroundColor: 'black',
   }
 
 
   useEffect( () => {
+    
+    
     if (tetrisGrille.isGame) {
       setTimeout( () => {
-        tetrisGrille.tetraMvDown();
+        if (focus) tetrisGrille.tetraMvDown();
         setTicTac(!tictac)
-      },2000)
+      },1500)
     }
 
   },[tictac]) 
@@ -112,13 +115,20 @@ function App() {
 
 
   return (
-    <div tabIndex={0}  onKeyDown={keyBoardEvent}>
+    <div tabIndex={0} onKeyDown={keyBoardEvent} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} style={CSS.container}>
       <Canvas draw={draw} width={`${largeur.value*scale}`} height={`${hauteur.value*scale}`} style={css} />
     </div>
   )
   
 }
 
+const CSS = {
+  container :{
+    width: `${largeur.value*scale}px`,
+    margin: 'auto',
+
+  }
+}
 
 
 export default App

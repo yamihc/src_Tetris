@@ -1,4 +1,4 @@
-import { coord, tetraArray } from "../../types/mestypes";
+import { coord } from "../../types/mestypes";
 import { Bloc } from "./Bloc";
 
 const axe = [{x:-1,y:0},{x:0,y:-1},{x:1,y:0},{x:0,y:1}];

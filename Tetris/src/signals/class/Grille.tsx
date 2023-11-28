@@ -2,7 +2,7 @@ import { coord } from "../../types/mestypes";
 import { Tetramino, TetraminoCube, TetraminoLDroit, TetraminoLGauche, TetraminoLT, TetraminoLigne, TetraminoSDroit, TetraminoSGauche } from "./Tetramino";
 
 
-const initialCoord: coord = {x:2,y:3};
+const initialCoord: coord = {x:1,y:4};
 
 class Grille {
     grille: number[][];
@@ -52,7 +52,7 @@ class Grille {
         let ret = true;
         
         vBloc.forEach( bl => {
-            if ( bl.x > 14 || this.grille[bl.x][bl.y] != 0 || bl.y < 0 || bl.y > this.grille[0].length ) ret = false;
+            if ( bl.x > this.grille.length-1 || this.grille[bl.x][bl.y] != 0 || bl.y < 0 || bl.y > this.grille[0].length ) ret = false;
             return;
         })
 

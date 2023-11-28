@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals";
 import Grille from "./class/Grille";
 
-const hauteur = signal(15);
+const hauteur = signal(18);
 const largeur = signal(9);
 
 

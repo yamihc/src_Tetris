@@ -1,7 +1,7 @@
 import useCanvas from "./useCanvas"
 
 
-const Canvas = props => {
+const Canvas = (props:any) => {
     const {draw, ...rest } = props;
     const refCanvas = useCanvas(draw);
 
