@@ -9,12 +9,9 @@ const useCanvas = (draw:any) => {
         const canvas = refCanvas.current;
         if (canvas) {
             const context = canvas.getContext('2d');
-            let count = 0;
             let animationID: number;
-
             const renderer = () => {
-                count ++
-                draw(context!,count);
+                draw(context!);
                 animationID = window.requestAnimationFrame(renderer);
             }
 

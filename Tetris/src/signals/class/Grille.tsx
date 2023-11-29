@@ -7,17 +7,20 @@ const initialCoord: coord = {x:1,y:4};
 class Grille {
     grille: number[][];
     tetra: Tetramino;
+    nextTetra: Tetramino;
     isGame : boolean;
 
     constructor(grille:number[][]) {
         this.grille = grille;
-        this.tetra= this.randomTetra({...initialCoord});
+        this.tetra = this.randomTetra({...initialCoord});
+        this.nextTetra = this.randomTetra({...initialCoord});
         this.isGame = true ;
     }
 
     newTetra() {
         if (this.isGame) {
-            this.tetra= this.randomTetra({...initialCoord});
+            this.tetra = this.nextTetra;
+            this.nextTetra= this.randomTetra({...initialCoord});
             if (!this.isValidMov(this.tetra.getAllPosition())) this.isGame = false;
         }
     }
@@ -110,6 +113,7 @@ class Grille {
     removeLines() {
 
         const newGrille = this.grille.filter( ligne =>  !this.isLigneCompleted(ligne) )
+
 
         if (newGrille.length != this.grille.length) {
             
