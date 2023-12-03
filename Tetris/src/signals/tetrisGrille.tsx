@@ -1,9 +1,10 @@
 import { signal } from "@preact/signals";
 import Grille from "./class/Grille";
 
-const hauteur = signal(18);
-const largeur = signal(9);
+const hauteur = signal(22);
+const largeur = signal(10);
 
+const vitesse = signal(1500);
 
 const initalBoard = (): number[][] => {
     const lignes = new Array(hauteur.value)
@@ -12,11 +13,7 @@ const initalBoard = (): number[][] => {
     return grille;
 }
 
-
 const boardGame = signal(new Grille(initalBoard()));
 
-//const tetramino = signal([{x:3,y:5}]);  // non utilisé
 
-
-
-export { hauteur, largeur, boardGame }
+export { hauteur, largeur, boardGame, vitesse }

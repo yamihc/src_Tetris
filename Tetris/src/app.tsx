@@ -4,9 +4,11 @@ import './app.css';
 
 import Canvas from './components/canvas/Canvas';
 
-import { boardGame, hauteur, largeur } from './signals/tetrisGrille';
+import { boardGame, hauteur, largeur, vitesse } from './signals/tetrisGrille';
 
-const scale = 50;
+
+
+const scale = 45;
 
 
 function App() {
@@ -82,7 +84,7 @@ function App() {
       setTimeout( () => {
         if (focus) tetrisGrille.tetraMvDown()
          setTicTac(!tictac)
-      },1500)
+      },vitesse.value);
     }
 
   },[tictac]) 
