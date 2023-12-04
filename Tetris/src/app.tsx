@@ -4,7 +4,8 @@ import './app.css';
 
 import Canvas from './components/canvas/Canvas';
 
-import { boardGame, hauteur, largeur, vitesse } from './signals/tetrisGrille';
+import { boardGame, hauteur, largeur, vitesse, score } from './signals/tetrisGrille';
+import Display from './components/Display';
 
 
 
@@ -35,7 +36,7 @@ function App() {
       ctx.fillStyle = codeCouleur(tetrisGrille.tetra.color);
       tetrisGrille.tetra.getAllPosition().forEach( cel => {
         
-        ctx.fillRect(1+cel.y*scale,1+cel.x*scale,scale-2,scale-2)
+        ctx.fillRect(1+cel.y*(scale),1+cel.x*(scale),(scale)-2,(scale)-2)
 
       } )
 
@@ -50,7 +51,7 @@ function App() {
     ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
     ctx.fillStyle = codeCouleur(tetrisGrille.nextTetra.color);
     tetrisGrille.nextTetra.getAllPosition().forEach( blc => {
-      ctx.fillRect((1+(blc.y-2)*40),(1+(blc.x+1)*40)-20,40-2,40-2);
+      ctx.fillRect((1+(blc.y-2)*35),(1+(blc.x+1.5)*35)-20,35-2,35-2);
     })
   }
 
@@ -97,6 +98,7 @@ function App() {
             <Canvas draw={draw} width={`${largeur.value*scale}`} height={`${hauteur.value*scale}`} style={CSS.canvasBoard} />
             <div>
               <Canvas draw={nextTetra} width={`${4*scale}`} height={`${4*scale}`}  style={CSS.canvasSide} />
+              <Display info={score.value} />  
             </div>
           </div>
         
@@ -113,7 +115,7 @@ function alertFocus(ctx: CanvasRenderingContext2D) {
 
   ctx.font = `${scale}px Arial`;
   ctx.fillStyle = "white";
-  ctx.fillText("Clic to continue",largeur.value*scale/9,hauteur.value*scale/2)
+  ctx.fillText("Clic to continue",largeur.value*scale/8,hauteur.value*scale/2)
 
 }
 

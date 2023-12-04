@@ -5,6 +5,7 @@ const hauteur = signal(22);
 const largeur = signal(10);
 
 const vitesse = signal(1500);
+const score = signal(0)
 
 const initalBoard = (): number[][] => {
     const lignes = new Array(hauteur.value)
@@ -16,4 +17,4 @@ const initalBoard = (): number[][] => {
 const boardGame = signal(new Grille(initalBoard()));
 
 
-export { hauteur, largeur, boardGame, vitesse }
+export { hauteur, largeur, boardGame, vitesse, score }

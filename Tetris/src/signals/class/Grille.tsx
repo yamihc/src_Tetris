@@ -4,7 +4,7 @@ import { Tetramino, TetraminoCube, TetraminoLDroit, TetraminoLGauche, TetraminoL
 
 const initialCoord: coord = {x:1,y:4};
 
-import { vitesse } from "../tetrisGrille";
+import { vitesse, score } from "../tetrisGrille";
 
 class Grille {
     grille: number[][];
@@ -12,12 +12,14 @@ class Grille {
     nextTetra: Tetramino;
     isGame : boolean;
     cptFullLigne: number;
+    nbLigne : number;
 
     constructor(grille:number[][]) {
         this.grille = grille;
         this.tetra = this.randomTetra({...initialCoord});
         this.nextTetra = this.randomTetra({...initialCoord});
         this.isGame = true ;
+        this.nbLigne = 0 ;
         this.cptFullLigne = 0 ;
     }
 
@@ -122,9 +124,10 @@ class Grille {
         if (newGrille.length != this.grille.length) {
                         
             const nbNewLignes = this.grille.length - newGrille.length ;
+            score.value +=fact(nbNewLignes) ;
             this.cptFullLigne += nbNewLignes;
             if (this.cptFullLigne > 10) {
-                vitesse.value -= 200;
+                vitesse.value -= Math.floor(vitesse.value*.95);
                 this.cptFullLigne = 0 - nbNewLignes;
             }
 
@@ -153,3 +156,11 @@ class Grille {
 
 
 export default Grille;
+
+function fact(n:number):number {
+    if (n == 1) {
+        return 1;
+    } else  {
+        return n * fact(n-1);
+    }
+}

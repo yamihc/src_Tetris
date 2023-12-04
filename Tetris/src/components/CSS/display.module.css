@@ -1,0 +1,15 @@
+.container {
+    margin-top: 55px;
+    margin-left: 40px;
+    background-color: rgb(184, 199, 231);
+    text-align: center;
+    border-radius: 12px;
+    border: 3px solid black;
+    padding: 0.9em;
+}
+
+.info {
+    font-size: 28px;
+    text-align: justify;
+    font-weight: 700;
+}
