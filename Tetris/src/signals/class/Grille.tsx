@@ -31,6 +31,10 @@ class Grille {
         }
     }
 
+    changeNextTetra() {
+        this.nextTetra= this.randomTetra({...initialCoord});
+    }
+
     randomTetra(position : coord): Tetramino {
 
         const NB_TETRA = 7;
@@ -57,11 +61,11 @@ class Grille {
 
 
     isValidMov(vBloc: coord[]): boolean {
-        
+        if (!this.isGame) return false;
         let ret = true;
         
         vBloc.forEach( bl => {
-            if ( bl.x > this.grille.length-1 || this.grille[bl.x][bl.y] != 0 || bl.y < 0 || bl.y > this.grille[0].length ) ret = false;
+            if ( bl.x >=0 && ( bl.x > this.grille.length-1 || this.grille[bl.x][bl.y] != 0 || bl.y < 0 || bl.y > this.grille[0].length) ) ret = false;
             return;
         })
 
@@ -124,10 +128,11 @@ class Grille {
         if (newGrille.length != this.grille.length) {
                         
             const nbNewLignes = this.grille.length - newGrille.length ;
-            score.value +=fact(nbNewLignes) ;
+            score.value += fact(nbNewLignes);
             this.cptFullLigne += nbNewLignes;
             if (this.cptFullLigne > 10) {
-                vitesse.value -= Math.floor(vitesse.value*.95);
+                vitesse.value = Math.floor(vitesse.value*.85);
+                console.log("vitesse : " + vitesse.value);
                 this.cptFullLigne = 0 - nbNewLignes;
             }
 
@@ -153,7 +158,6 @@ class Grille {
 
 
 }
-
 
 export default Grille;
 

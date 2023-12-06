@@ -10,7 +10,7 @@ import Display from './components/Display';
 
 
 const scale = 45;
-
+const tZero = Date.now();
 
 function App() {
 
@@ -18,7 +18,7 @@ function App() {
 
   const [tictac, setTicTac] = useState(true);
   const [focus,setFocus] = useState(false);
-
+  const [chrono,setChrono] = useState(0);
   
   const draw = (ctx: CanvasRenderingContext2D) => {
 
@@ -39,8 +39,10 @@ function App() {
         ctx.fillRect(1+cel.y*(scale),1+cel.x*(scale),(scale)-2,(scale)-2)
 
       } )
-
-      if (!focus) alertFocus(ctx);
+ 
+      if (!focus && tetrisGrille.isGame) alertFocus(ctx);
+      if (!tetrisGrille.isGame) gameOver(ctx);
+      setChrono(chronometre());
       
     });
 
@@ -67,6 +69,7 @@ function App() {
         break;
       case 'ArrowUp':
         tetrisGrille.tetraTurn();
+        tetrisGrille.changeNextTetra();
         break;
       case 'ArrowDown':
         tetrisGrille.tetraMvDown();
@@ -98,7 +101,8 @@ function App() {
             <Canvas draw={draw} width={`${largeur.value*scale}`} height={`${hauteur.value*scale}`} style={CSS.canvasBoard} />
             <div>
               <Canvas draw={nextTetra} width={`${4*scale}`} height={`${4*scale}`}  style={CSS.canvasSide} />
-              <Display info={score.value} />  
+              <Display info={score.value} />
+              <Display info={chrono} /> 
             </div>
           </div>
         
@@ -117,6 +121,19 @@ function alertFocus(ctx: CanvasRenderingContext2D) {
   ctx.fillStyle = "white";
   ctx.fillText("Clic to continue",largeur.value*scale/8,hauteur.value*scale/2)
 
+}
+
+function gameOver(ctx: CanvasRenderingContext2D) {
+
+  ctx.font = `${scale}px Arial`;
+  ctx.fillStyle = "white";
+  ctx.fillText(" !! GAME OVER !!",largeur.value*scale/8,hauteur.value*scale/2)
+
+
+}
+
+function chronometre():number {
+  return Math.floor((Date.now() - tZero)/1000);
 }
 
 const CSS = {
