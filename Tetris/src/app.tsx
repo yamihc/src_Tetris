@@ -69,7 +69,6 @@ function App() {
         break;
       case 'ArrowUp':
         tetrisGrille.tetraTurn();
-        tetrisGrille.changeNextTetra();
         break;
       case 'ArrowDown':
         tetrisGrille.tetraMvDown();
@@ -108,11 +107,9 @@ function App() {
         
     </>
   )
-  
 }
 
 export default App
-
 
 
 function alertFocus(ctx: CanvasRenderingContext2D) {
@@ -128,7 +125,6 @@ function gameOver(ctx: CanvasRenderingContext2D) {
   ctx.font = `${scale}px Arial`;
   ctx.fillStyle = "white";
   ctx.fillText(" !! GAME OVER !!",largeur.value*scale/8,hauteur.value*scale/2)
-
 
 }
 

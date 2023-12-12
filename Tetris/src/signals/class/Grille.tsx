@@ -13,6 +13,7 @@ class Grille {
     isGame : boolean;
     cptFullLigne: number;
     nbLigne : number;
+    bonus: number;
 
     constructor(grille:number[][]) {
         this.grille = grille;
@@ -21,6 +22,7 @@ class Grille {
         this.isGame = true ;
         this.nbLigne = 0 ;
         this.cptFullLigne = 0 ;
+        this.bonus = 1 ;
     }
 
     newTetra() {
@@ -28,17 +30,24 @@ class Grille {
             this.tetra = this.nextTetra;
             this.nextTetra= this.randomTetra({...initialCoord});
             if (!this.isValidMov(this.tetra.getAllPosition())) this.isGame = false;
+
+            const rand = Math.round(Math.random()*3);
+              
+            for (let i = 0 ; i < rand ; i++ ) {
+                this.nextTetra.turnTrigo();
+            }
         }
     }
 
     changeNextTetra() {
         this.nextTetra= this.randomTetra({...initialCoord});
+
     }
 
     randomTetra(position : coord): Tetramino {
 
-        const NB_TETRA = 7;
-        const randNumb = Math.floor(Math.random()*NB_TETRA)
+        const NB_TETRA = 7 ;
+        const randNumb = Math.floor(Math.random() * NB_TETRA);
 
         switch (randNumb) {
             case 0:
@@ -68,8 +77,7 @@ class Grille {
             if ( bl.x >=0 && ( bl.x > this.grille.length-1 || this.grille[bl.x][bl.y] != 0 || bl.y < 0 || bl.y > this.grille[0].length) ) ret = false;
             return;
         })
-
-        
+       
         return ret ;
     }
 
@@ -124,19 +132,19 @@ class Grille {
 
         const newGrille = this.grille.filter( ligne =>  !this.isLigneCompleted(ligne) )
 
-
         if (newGrille.length != this.grille.length) {
                         
             const nbNewLignes = this.grille.length - newGrille.length ;
-            score.value += fact(nbNewLignes);
+            score.value += fact(nbNewLignes) * this.bonus;
             this.cptFullLigne += nbNewLignes;
             if (this.cptFullLigne > 10) {
-                vitesse.value = Math.floor(vitesse.value*.85);
-                console.log("vitesse : " + vitesse.value);
-                this.cptFullLigne = 0 - nbNewLignes;
+                score.value += Math.floor((score.value * .2)) ;
+                vitesse.value = Math.floor(vitesse.value * .82) ;
+                this.bonus++;
+                this.cptFullLigne = 0 ;
             }
 
-            const largeur = this.grille[0].length;
+            const largeur = this.grille[0].length ;
 
             for (let i = 0 ; i < nbNewLignes ; i++ ) {
                 newGrille.unshift((new Array(largeur)).fill(0))
@@ -144,7 +152,6 @@ class Grille {
 
              this.grille = newGrille;               
         }
-
     }
 
     isLigneCompleted( ligne: number[]): boolean {
@@ -155,8 +162,6 @@ class Grille {
 
         return true;
     }
-
-
 }
 
 export default Grille;

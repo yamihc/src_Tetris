@@ -4,7 +4,7 @@ import Grille from "./class/Grille";
 const hauteur = signal(22);
 const largeur = signal(10);
 
-const vitesse = signal(1500);
+const vitesse = signal(1000);
 const score = signal(0);
 
 const initalBoard = (): number[][] => {
