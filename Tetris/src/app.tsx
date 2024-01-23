@@ -7,10 +7,13 @@ import Canvas from './components/canvas/Canvas';
 import { boardGame, hauteur, largeur, vitesse, score } from './signals/tetrisGrille';
 import Display from './components/Display';
 
+import Modale from './components/Modale';
+
 
 
 const scale = 45;
-const tZero = Date.now();
+let tZero = Date.now() ;
+let nbSec = 0 ;
 
 function App() {
 
@@ -19,7 +22,9 @@ function App() {
   const [tictac, setTicTac] = useState(true);
   const [focus,setFocus] = useState(false);
   const [chrono,setChrono] = useState(0);
+  const [setting, setSetting ] = useState(false);
   
+
   const draw = (ctx: CanvasRenderingContext2D) => {
 
     ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height)
@@ -42,10 +47,12 @@ function App() {
  
       if (!focus && tetrisGrille.isGame) alertFocus(ctx);
       if (!tetrisGrille.isGame) gameOver(ctx);
+      if (focus) nbSec += (Date.now() - tZero);
+      tZero = Date.now();
+      
       setChrono(chronometre());
       
     });
-
   }
 
 
@@ -77,7 +84,6 @@ function App() {
       default:
         break;
     }
-
   }
 
 
@@ -93,18 +99,29 @@ function App() {
   },[tictac]) 
 
 
+  if (setting) {
+    return(
+      <>
+          <div style={CSS.container}>
+              <h2>test2</h2> 
+              <button onClick={() => setSetting(false)} style={CSS.bouton} >Fermer</button>
+          </div>
+      </>
+    )
+  }
+
 
   return (
-    <>
+    <>    
           <div tabIndex={0} onKeyDown={keyBoardEvent} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} style={CSS.container}>
             <Canvas draw={draw} width={`${largeur.value*scale}`} height={`${hauteur.value*scale}`} style={CSS.canvasBoard} />
-            <div>
+            <div style={CSS.containerRight} >
               <Canvas draw={nextTetra} width={`${4*scale}`} height={`${4*scale}`}  style={CSS.canvasSide} />
-              <Display info={score.value} />
-              <Display info={chrono} /> 
+              <Display titre="score :" info={score.value} />
+              <Display titre="chrono :" info={chrono} /> 
+              <button onClick={() => setSetting(true)} style={CSS.bouton} >Setting</button>
             </div>
           </div>
-        
     </>
   )
 }
@@ -129,7 +146,7 @@ function gameOver(ctx: CanvasRenderingContext2D) {
 }
 
 function chronometre():number {
-  return Math.floor((Date.now() - tZero)/1000);
+  return Math.floor(nbSec/1000);
 }
 
 const CSS = {
@@ -137,10 +154,17 @@ const CSS = {
     width: `${largeur.value*scale + 280 }px`,
     margin: 'auto',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: "space-around",
     border: "2px solid black",
     padding: "4px",
     borderRadius: "15px",
+  },
+  containerRight :{
+    display: 'flex',
+    flexDirection : 'column',
+    alignItems: "center",
+    
+    justifyContent: "space-around",
   },
   canvasBoard : {
     border: '5px solid black',
@@ -149,10 +173,18 @@ const CSS = {
   canvasSide : {
     border: '3px solid black',
     backgroundColor: '#e1e1e1',
-    marginLeft:'40px',
-    marginTop:'30px',
+
     width: '160px',
     height: '160px',
+  },
+  bouton :{
+    fontSize: '28px',
+    textAlign: 'center',
+    fontWeight: 700,
+    border: "2px solid black",
+    borderRadius: "15px",
+    padding: "12px",
+    width: '160px',
   }
 }
 

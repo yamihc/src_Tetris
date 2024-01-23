@@ -1,6 +1,6 @@
 .container {
-    margin-top: 55px;
-    margin-left: 40px;
+    width: 160px;
+    
     background-color: rgb(184, 199, 231);
     text-align: center;
     border-radius: 12px;
@@ -12,4 +12,12 @@
     font-size: 28px;
     text-align: justify;
     font-weight: 700;
+}
+
+.titre {
+    font-size: 14px;
+    text-align: justify;
+    margin: 0;
+    
+
 }
