@@ -12,9 +12,9 @@ const Modale: React.FC<ModaleProps> = ({isOpen, onClose, children }) => {
 
     return (
         <div>
-            <h1>test</h1>
+            <h1>Setting</h1>
             {children}
-            <button onClick={onClose}>Fermer</button>
+            <button onClick={onClose}>Retour</button>
         </div>
 
     )

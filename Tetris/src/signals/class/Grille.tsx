@@ -4,7 +4,7 @@ import { Tetramino, TetraminoCube, TetraminoLDroit, TetraminoLGauche, TetraminoL
 
 const initialCoord: coord = {x:1,y:4};
 
-import { vitesse, score } from "../tetrisGrille";
+import { vitesse, score, totalLignes } from "../tetrisGrille";
 
 class Grille {
     grille: number[][];
@@ -136,6 +136,7 @@ class Grille {
                         
             const nbNewLignes = this.grille.length - newGrille.length ;
             score.value += fact(nbNewLignes) * this.bonus;
+            totalLignes.value += nbNewLignes;
             this.cptFullLigne += nbNewLignes;
             if (this.cptFullLigne > 10) {
                 score.value += Math.floor((score.value * .2)) ;

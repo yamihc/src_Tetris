@@ -4,14 +4,12 @@ import './app.css';
 
 import Canvas from './components/canvas/Canvas';
 
-import { boardGame, hauteur, largeur, vitesse, score } from './signals/tetrisGrille';
+import { boardGame, hauteur, largeur, vitesse, score, scale, highScore, totalLignes } from './signals/tetrisGrille';
 import Display from './components/Display';
 
-import Modale from './components/Modale';
 
 
 
-const scale = 45;
 let tZero = Date.now() ;
 let nbSec = 0 ;
 
@@ -34,33 +32,32 @@ function App() {
 
         ctx.fillStyle = codeCouleur(cel);
 
-        ctx.fillRect(1+j*scale,1+i*scale,scale-2,scale-2)
+        ctx.fillRect(1+j*scale.value,1+i*scale.value,scale.value-2,scale.value-2)
         
       });
 
       ctx.fillStyle = codeCouleur(tetrisGrille.tetra.color);
       tetrisGrille.tetra.getAllPosition().forEach( cel => {
         
-        ctx.fillRect(1+cel.y*(scale),1+cel.x*(scale),(scale)-2,(scale)-2)
+        ctx.fillRect(1+cel.y*(scale.value),1+cel.x*(scale.value),(scale.value)-2,(scale.value)-2)
 
       } )
  
       if (!focus && tetrisGrille.isGame) alertFocus(ctx);
-      if (!tetrisGrille.isGame) gameOver(ctx);
+      if (!tetrisGrille.isGame) { gameOver(ctx);} else {setChrono(chronometre());}
       if (focus) nbSec += (Date.now() - tZero);
       tZero = Date.now();
-      
-      setChrono(chronometre());
       
     });
   }
 
 
   const nextTetra = (ctx: CanvasRenderingContext2D) => {
+    const localScale = scale.value * .85;
     ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
     ctx.fillStyle = codeCouleur(tetrisGrille.nextTetra.color);
     tetrisGrille.nextTetra.getAllPosition().forEach( blc => {
-      ctx.fillRect((1+(blc.y-2)*35),(1+(blc.x+1.5)*35)-20,35-2,35-2);
+      ctx.fillRect((1+(blc.y-2)*localScale),(1+(blc.x+1.5)*localScale)-20,localScale-2,localScale-2);
     })
   }
 
@@ -91,7 +88,7 @@ function App() {
     
     if (tetrisGrille.isGame) {
       setTimeout( () => {
-        if (focus) tetrisGrille.tetraMvDown()
+        if (focus && tetrisGrille.isGame) tetrisGrille.tetraMvDown()
          setTicTac(!tictac)
       },vitesse.value);
     }
@@ -103,8 +100,8 @@ function App() {
     return(
       <>
           <div style={CSS.container}>
-              <h2>test2</h2> 
-              <button onClick={() => setSetting(false)} style={CSS.bouton} >Fermer</button>
+              <h2>// TODO</h2> 
+              <button onClick={() => setSetting(false)} style={CSS.bouton} >Retour</button>
           </div>
       </>
     )
@@ -114,11 +111,13 @@ function App() {
   return (
     <>    
           <div tabIndex={0} onKeyDown={keyBoardEvent} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} style={CSS.container}>
-            <Canvas draw={draw} width={`${largeur.value*scale}`} height={`${hauteur.value*scale}`} style={CSS.canvasBoard} />
+            <Canvas draw={draw} width={`${largeur.value*scale.value}`} height={`${hauteur.value*scale.value}`} style={CSS.canvasBoard} />
             <div style={CSS.containerRight} >
-              <Canvas draw={nextTetra} width={`${4*scale}`} height={`${4*scale}`}  style={CSS.canvasSide} />
-              <Display titre="score :" info={score.value} />
-              <Display titre="chrono :" info={chrono} /> 
+              <Canvas draw={nextTetra} width={`${4*scale.value}`} height={`${4*scale.value}`}  style={CSS.canvasSide} />
+              <Display titre="High Score :" info={ getHighScore() } />
+              <Display titre="Score :" info={score.value} />
+              <Display titre="Total lines :" info={totalLignes.value} />
+              <Display titre="Chrono :" info={chrono} /> 
               <button onClick={() => setSetting(true)} style={CSS.bouton} >Setting</button>
             </div>
           </div>
@@ -128,12 +127,28 @@ function App() {
 
 export default App
 
+function getHighScore(): number {
+
+  if (highScore.value >= score.value) {
+
+    return highScore.value;
+
+  } else {
+    
+    localStorage.setItem("YamihcGame_Tetris_HighScore",(score.value).toString())
+
+    return score.value;
+
+  }   
+
+}
+
 
 function alertFocus(ctx: CanvasRenderingContext2D) {
 
   ctx.font = `${scale}px Arial`;
   ctx.fillStyle = "white";
-  ctx.fillText("Clic to continue",largeur.value*scale/8,hauteur.value*scale/2)
+  ctx.fillText("Clic to continue",largeur.value*scale.value/8,hauteur.value*scale.value/2)
 
 }
 
@@ -141,7 +156,7 @@ function gameOver(ctx: CanvasRenderingContext2D) {
 
   ctx.font = `${scale}px Arial`;
   ctx.fillStyle = "white";
-  ctx.fillText(" !! GAME OVER !!",largeur.value*scale/8,hauteur.value*scale/2)
+  ctx.fillText(" !! GAME OVER !!",largeur.value*scale.value/8,hauteur.value*scale.value/2)
 
 }
 
@@ -151,7 +166,7 @@ function chronometre():number {
 
 const CSS = {
   container :{
-    width: `${largeur.value*scale + 280 }px`,
+    width: `${largeur.value*scale.value + 280 }px`,
     margin: 'auto',
     display: 'flex',
     justifyContent: "space-around",
