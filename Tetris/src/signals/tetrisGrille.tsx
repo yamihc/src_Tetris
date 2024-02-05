@@ -2,6 +2,7 @@ import { signal } from "@preact/signals";
 import Grille from "./class/Grille";
 
 
+
 const highScore = signal(0);
 
 const localHighScore = localStorage.getItem("YamihcGame_Tetris_HighScore");
@@ -23,6 +24,8 @@ const vitesse = signal(1000);
 const score = signal(0);
 const totalLignes = signal(0);
 
+
+
 const initalBoard = (): number[][] => {
     const lignes = new Array(hauteur.value)
     const grille = Array.from(lignes, () => (new Array(largeur.value)).fill(0))
@@ -30,7 +33,11 @@ const initalBoard = (): number[][] => {
     return grille;
 }
 
-const boardGame = signal(new Grille(initalBoard()));
+const boardGame = signal(new Grille(initalBoard(),4));
 
+function resetBoard():void {
+    scale.value = window.innerHeight/(hauteur.value+2);
+    boardGame.value = new Grille(initalBoard(),Math.floor(largeur.value/2));
+}
 
-export { hauteur, largeur, boardGame, vitesse, score, scale, highScore,totalLignes }
+export { hauteur, largeur, boardGame, vitesse, score, scale, highScore,totalLignes, resetBoard }

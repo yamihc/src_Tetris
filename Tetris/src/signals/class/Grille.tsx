@@ -15,7 +15,7 @@ class Grille {
     nbLigne : number;
     bonus: number;
 
-    constructor(grille:number[][]) {
+    constructor(grille:number[][], initialY:number) {
         this.grille = grille;
         this.tetra = this.randomTetra({...initialCoord});
         this.nextTetra = this.randomTetra({...initialCoord});
@@ -23,6 +23,7 @@ class Grille {
         this.nbLigne = 0 ;
         this.cptFullLigne = 0 ;
         this.bonus = 1 ;
+        initialCoord.y = initialY;
     }
 
     newTetra() {

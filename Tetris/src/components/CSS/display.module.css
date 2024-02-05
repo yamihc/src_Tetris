@@ -1,5 +1,5 @@
 .container {
-    width: 160px;
+    width: 8em;
     
     background-color: rgb(205, 220, 252);
     text-align: center;
@@ -9,14 +9,14 @@
 }
 
 .info {
-    font-size: 28px;
+    font-size: 1.5em;
     text-align: justify;
     font-weight: 700;
     font-family: 'VT323', monospace;
 }
 
 .titre {
-    font-size: 14px;
+    font-size: 0.8em;
     text-align: justify;
     margin: 0;
     font-family: 'VT323', monospace;

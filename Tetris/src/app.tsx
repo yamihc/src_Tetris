@@ -6,6 +6,7 @@ import Canvas from './components/canvas/Canvas';
 
 import { boardGame, hauteur, largeur, vitesse, score, scale, highScore, totalLignes } from './signals/tetrisGrille';
 import Display from './components/Display';
+import Setting from './components/Setting';
 
 
 
@@ -100,7 +101,7 @@ function App() {
     return(
       <>
           <div style={CSS.container}>
-              <h2>// TODO</h2> 
+              <Setting />
               <button onClick={() => setSetting(false)} style={CSS.bouton} >Retour</button>
           </div>
       </>
