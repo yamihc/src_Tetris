@@ -16,6 +16,7 @@ class Grille {
     bonus: number;
 
     constructor(grille:number[][], initialY:number) {
+        initialCoord.y = initialY;
         this.grille = grille;
         this.tetra = this.randomTetra({...initialCoord});
         this.nextTetra = this.randomTetra({...initialCoord});
@@ -23,7 +24,6 @@ class Grille {
         this.nbLigne = 0 ;
         this.cptFullLigne = 0 ;
         this.bonus = 1 ;
-        initialCoord.y = initialY;
     }
 
     newTetra() {
@@ -164,6 +164,11 @@ class Grille {
 
         return true;
     }
+
+    endGame() {
+        this.isGame = false;
+    }
+
 }
 
 export default Grille;

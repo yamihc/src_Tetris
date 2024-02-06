@@ -84,6 +84,17 @@ function App() {
     }
   }
 
+  const settingOn = () => {
+    setSetting(true);
+    tetrisGrille.endGame();
+  }
+
+  const settingOff = () => {
+    setSetting(false);
+    setTicTac(!tictac);
+  }
+
+
 
   useEffect( () => {
     
@@ -101,8 +112,7 @@ function App() {
     return(
       <>
           <div style={CSS.container}>
-              <Setting />
-              <button onClick={() => setSetting(false)} style={CSS.bouton} >Retour</button>
+              <Setting callback={settingOff} />
           </div>
       </>
     )
@@ -119,7 +129,7 @@ function App() {
               <Display titre="Score :" info={score.value} />
               <Display titre="Total lines :" info={totalLignes.value} />
               <Display titre="Chrono :" info={chrono} /> 
-              <button onClick={() => setSetting(true)} style={CSS.bouton} >Setting</button>
+              <button onClick={settingOn} style={CSS.bouton} >Setting</button>
             </div>
           </div>
     </>
@@ -163,7 +173,15 @@ function gameOver(ctx: CanvasRenderingContext2D) {
 
 function chronometre():number {
   return Math.floor(nbSec/1000);
+
 }
+
+export function resetChrono() {
+  tZero = Date.now();
+  nbSec = 0;
+  
+}
+
 
 const CSS = {
   container :{

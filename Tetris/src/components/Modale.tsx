@@ -19,7 +19,6 @@ const Modale: React.FC<ModaleProps> = ({isOpen, onClose, children }) => {
 
     )
 
-
 }
 
 

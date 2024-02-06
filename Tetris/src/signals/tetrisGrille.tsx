@@ -1,6 +1,6 @@
 import { signal } from "@preact/signals";
 import Grille from "./class/Grille";
-
+import { resetChrono } from "../app";
 
 
 const highScore = signal(0);
@@ -26,18 +26,19 @@ const totalLignes = signal(0);
 
 
 
-const initalBoard = (): number[][] => {
+const initBoard = (): number[][] => {
     const lignes = new Array(hauteur.value)
     const grille = Array.from(lignes, () => (new Array(largeur.value)).fill(0))
 
     return grille;
 }
 
-const boardGame = signal(new Grille(initalBoard(),4));
+const boardGame = signal(new Grille(initBoard(),4));
 
 function resetBoard():void {
     scale.value = window.innerHeight/(hauteur.value+2);
-    boardGame.value = new Grille(initalBoard(),Math.floor(largeur.value/2));
+    boardGame.value = new Grille(initBoard(),Math.floor(largeur.value/2));
+    resetChrono();
 }
 
 export { hauteur, largeur, boardGame, vitesse, score, scale, highScore,totalLignes, resetBoard }
