@@ -28,6 +28,14 @@ export class Bloc {
         }
     }
 
+    getRelativePosition():coord {
+        let ret = {
+            x : this.positions[this.idx].x*this.dist,
+            y : this.positions[this.idx].y*this.dist
+        }
+        return ret;
+    }
+
 }
 
 

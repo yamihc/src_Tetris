@@ -26,14 +26,14 @@ const Setting: React.FC<{callback: () => void }> = ({callback}) => {
             <div class={css.form}>
                 <form >
                     <div>
-                        <h2>Dimmension de la grille (bêta)</h2>
+                        <h2>Dimmension de la grille</h2>
                         <label htmlFor="hauteur">Hauteur ({hauteurTmp}) :</label>
                         <input
                             type="range"
                             id="hauteur"
                             name="hauteur"
                             min="5"
-                            max="35"
+                            max="55"
                             value={hauteurTmp}
                             onChange={(e) => { if (e.target instanceof HTMLInputElement)  {setHauteurTmp(parseInt(e.target.value))} }}
                         />
@@ -51,7 +51,7 @@ const Setting: React.FC<{callback: () => void }> = ({callback}) => {
                     </div>                        
 
                     <div>
-                        <h2>Vitesse de départ (bêta)</h2>
+                        <h2>Vitesse de départ</h2>
           
                         <label htmlFor="vitesse">Vitesse :</label>
                         <input
