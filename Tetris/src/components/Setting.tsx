@@ -1,4 +1,3 @@
-//import React from "preact/compat";
 
 import { useState } from "preact/hooks"
 import { hauteur, largeur,resetBoard, vitesse } from "../signals/tetrisGrille"
@@ -58,11 +57,11 @@ const Setting: React.FC<{callback: () => void }> = ({callback}) => {
                             type="range"
                             id="vitesse"
                             name="vitesse"
-                            min="200"
+                            min="150"
                             max="2000"
                             dir={"rtl"}
                             value={vitesseTmp}
-                            onChange={(e) => { if (e.target instanceof HTMLInputElement)  {setVitesseTmp(parseInt(e.target.value))} }}
+                            onChange={(e) => { if (e.target instanceof HTMLInputElement) {setVitesseTmp(parseInt(e.target.value))} }}
                         />
                      </div>
 

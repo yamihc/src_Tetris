@@ -4,15 +4,8 @@ import { resetChrono } from "../app";
 
 
 const highScore = signal(0);
-
-const localHighScore = localStorage.getItem("YamihcGame_Tetris_HighScore");
-
-if (localHighScore == null) {
-    localStorage.setItem("YamihcGame_Tetris_HighScore",(0).toString())
-
-} else {
-    highScore.value = parseInt(localHighScore);
-}
+const localStorageName = "YamihcGame_TetrisV1.1_HighScore";
+initHighScore();
 
 const hauteur = signal(22);
 const largeur = signal(10);
@@ -37,9 +30,25 @@ const boardGame = signal(new Grille(initBoard(),4));
 
 function resetBoard():void {
     reScale();
+    score.value = 0;
+    initHighScore();
     boardGame.value = new Grille(initBoard(),Math.floor(largeur.value/2));
     resetChrono();
 }
+
+function initHighScore():void {
+
+    const localHighScore = localStorage.getItem(localStorageName);
+
+    if (localHighScore == null) {
+        localStorage.setItem(localStorageName,(0).toString())
+    
+    } else {
+        highScore.value = parseInt(localHighScore);
+    }
+
+}
+
 
 function reScale() {
     scale.value = window.innerHeight/(hauteur.value+2) 
@@ -51,4 +60,4 @@ function reScale() {
     }
 }
 
-export { hauteur, largeur, boardGame, vitesse, score, scale, highScore,totalLignes, resetBoard }
+export { hauteur, largeur, boardGame, vitesse, score, scale, highScore,totalLignes, resetBoard, localStorageName }

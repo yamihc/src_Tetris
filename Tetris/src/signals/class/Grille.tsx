@@ -14,6 +14,7 @@ class Grille {
     cptFullLigne: number;
     nbLigne : number;
     bonus: number;
+    combo: number;
 
     constructor(grille:number[][], initialY:number) {
         initialCoord.y = initialY;
@@ -24,6 +25,7 @@ class Grille {
         this.nbLigne = 0 ;
         this.cptFullLigne = 0 ;
         this.bonus = 1 ;
+        this.combo = 0 ;
     }
 
     newTetra() {
@@ -134,11 +136,16 @@ class Grille {
         const newGrille = this.grille.filter( ligne =>  !this.isLigneCompleted(ligne) )
 
         if (newGrille.length != this.grille.length) {
-                        
             const nbNewLignes = this.grille.length - newGrille.length ;
-            score.value += fact(nbNewLignes) * this.bonus;
+            if (nbNewLignes == 1) this.combo = 0;
+            if (nbNewLignes == 2) this.combo = Math.floor(this.combo/2);
+            let points = (fact(nbNewLignes) + this.combo ) * this.bonus;
+            score.value += points;
+            if (nbNewLignes == 3) this.combo += Math.floor(points/4);
+            if (nbNewLignes == 4) this.combo += Math.floor(points/2);
             totalLignes.value += nbNewLignes;
             this.cptFullLigne += nbNewLignes;
+            
             if (this.cptFullLigne > 10) {
                 score.value += Math.floor((score.value * .2)) ;
                 vitesse.value = Math.floor(vitesse.value * .82) ;

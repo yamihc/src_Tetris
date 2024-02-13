@@ -7,7 +7,6 @@
     margin-bottom: 1rem;
 
     & h2, label {
-        /*font-family: 'VT323', monospace;*/
         font-size: 1.4rem;
     }
 
@@ -21,6 +20,15 @@
 
 }
 
+@media screen and (max-width : 730px) {
+  .form {
+    & div:first-child {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
 
 .button {
   appearance: button;
@@ -32,7 +40,6 @@
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
-   /* font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif; */
   font-size: 1.2em;
   height: 44px;
   line-height: 1.15;

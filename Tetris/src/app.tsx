@@ -4,7 +4,8 @@ import './app.css';
 
 import Canvas from './components/canvas/Canvas';
 
-import { boardGame, hauteur, largeur, vitesse, score, scale, highScore, totalLignes } from './signals/tetrisGrille';
+import { boardGame, hauteur, largeur, vitesse, score, scale, highScore, totalLignes, localStorageName } from './signals/tetrisGrille';
+
 import Display from './components/Display';
 import Setting from './components/Setting';
 import GridBloc from './components/GridBloc';
@@ -45,25 +46,13 @@ function App() {
 
       } )
  
-      if (!focus && tetrisGrille.isGame) message(ctx,"Clic to continue") ; //alertFocus(ctx);
-      if (!tetrisGrille.isGame) { message(ctx, " ** Game Over **");} else {setChrono(chronometre());}
+      if (!focus && tetrisGrille.isGame) message(ctx,"Clic to continue") ; 
+      if (!tetrisGrille.isGame) { message(ctx, "** Game Over **");} else {setChrono(chronometre());}
       if (focus) nbSec += (Date.now() - tZero);
       tZero = Date.now();
       
     });
   }
-
-
-  // const nextTetra = (ctx: CanvasRenderingContext2D) => {
-  //   const localScale = scale.value * .85;
-  //   ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
-  //   ctx.fillStyle = codeCouleur(tetrisGrille.nextTetra.color);
-  //   tetrisGrille.nextTetra.getAllPosition().forEach( blc => {
-  //     ctx.fillRect((1+(blc.y-2)*localScale),(1+(blc.x+1.5)*localScale)-20,localScale-2,localScale-2);
-  //   })
-  // }
-
-
 
   const keyBoardEvent = ({key}: any) => {
 
@@ -97,30 +86,7 @@ function App() {
     setTicTac(!tictac);
   }
 
-
-
-  useEffect( () => {
-    
-    if (tetrisGrille.isGame) {
-      setTimeout( () => {
-        if (focus && tetrisGrille.isGame) tetrisGrille.tetraMvDown()
-         setTicTac(!tictac)
-      },vitesse.value);
-    }
-
-  },[tictac]) 
-
-
-  if (setting) {
-    return(
-      <>
-          <div style={CSS.container}>
-              <Setting callback={settingOff} />
-          </div>
-      </>
-    )
-  }
-
+  
   const nextTetraGrid = () => {
     const size = 5;
     const center = 2;
@@ -142,31 +108,75 @@ function App() {
     return stringGrille;
   }
 
+  
 const cssResponsive = {
   container :{
-    width: `${largeur.value*scale.value + 280 }px`,
+    width: `${containerWidth() < window.innerWidth ? containerWidth() : containerWidth() - 180}px`,
     margin: 'auto',
     display: 'flex',
-    justifyContent: "space-around",
+    justifyContent: `${containerWidth() < window.innerWidth ? "space-around" : "center"}`,
     border: "2px solid black",
     padding: "4px",
     borderRadius: "15px",
+  },
+  slimInfo: {
+    width:"50px",
+    backgroundColor:`${codeCouleur(tetrisGrille.nextTetra.color)}`,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   }
 }
+
+
+useEffect( () => {
+    
+  if (tetrisGrille.isGame) {
+    setTimeout( () => {
+      if (focus && tetrisGrille.isGame) tetrisGrille.tetraMvDown()
+       setTicTac(!tictac)
+    },vitesse.value);
+  }
+
+},[tictac]) 
+
+
+
+  if (setting) {
+    return(
+      <>
+          <div style={CSS.setting}>
+              <Setting callback={settingOff} />
+          </div>
+      </>
+    )
+  }
+
 
   return (
     <>    
           <div tabIndex={0} onKeyDown={keyBoardEvent} onFocus={() => setFocus(true)} onBlur={() => setFocus(false)} style={cssResponsive.container}>
             <Canvas draw={draw} width={`${largeur.value*scale.value}`} height={`${hauteur.value*scale.value}`} style={CSS.canvasBoard} />
-            <div style={CSS.containerRight} >
-              {/* <Canvas draw={nextTetra} width={`${4*scale.value}`} height={`${4*scale.value}`}  style={CSS.canvasSide} /> */}
-              <GridBloc colors={nextTetraGrid()} />
-              <Display titre="High Score :" info={ getHighScore() } />
-              <Display titre="Score :" info={score.value} />
-              <Display titre="Total lines :" info={totalLignes.value} />
-              <Display titre="Chrono :" info={chrono} /> 
-              <button onClick={settingOn} style={CSS.bouton} >Setting</button>
-            </div>
+            { containerWidth() < window.innerWidth ?  
+                  <div style={CSS.containerRight} >
+                    <GridBloc colors={nextTetraGrid()} />
+                    <Display titre="High Score :" info={ getHighScore() } />
+                    <Display titre="Score :" info={score.value} />
+                    <Display titre="Total lines :" info={totalLignes.value} />
+                    <Display titre="Chrono :" info={chrono} /> 
+                    <button onClick={settingOn} style={CSS.bouton} >Setting</button>
+                  </div>    
+                  :
+                  <div style={cssResponsive.slimInfo}>
+                    <button onClick={settingOn} style={CSS.slimBouton} >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5M12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5M1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8m9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5m1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                      </svg>
+                    </button>                    
+                  </div>
+          
+            }           
+            
           </div>
     </>
   )
@@ -174,32 +184,19 @@ const cssResponsive = {
 
 export default App
 
+function containerWidth():number {
+  return  largeur.value*scale.value + 280;
+}
+
 function getHighScore(): number {
 
   if (highScore.value >= score.value) {
     return highScore.value;
   } else {
-    localStorage.setItem("YamihcGame_Tetris_HighScore",(score.value).toString())
+    localStorage.setItem(localStorageName,(score.value).toString())
     return score.value;
   }   
 }
-
-
-// function alertFocus(ctx: CanvasRenderingContext2D) {
-
-//   ctx.font = `${scale}px Arial`;
-//   ctx.fillStyle = "white";
-//   ctx.fillText("Clic to continue",largeur.value*scale.value/8,hauteur.value*scale.value/2)
-
-// }
-
-// function gameOver(ctx: CanvasRenderingContext2D) {
-
-//   ctx.font = `${scale}px Arial`;
-//   ctx.fillStyle = "white";
-//   ctx.fillText(" !! GAME OVER !!",largeur.value*scale.value/8,hauteur.value*scale.value/2)
-
-// }
 
 
 function message(ctx: CanvasRenderingContext2D, message:string){
@@ -225,6 +222,15 @@ export function resetChrono() {
 const CSS = {
   container :{
     width: `${largeur.value*scale.value + 280 }px`,
+    margin: 'auto',
+    display: 'flex',
+    justifyContent: "space-around",
+    border: "2px solid black",
+    padding: "4px",
+    borderRadius: "15px",
+  },
+  setting: {
+    width: `80%`,
     margin: 'auto',
     display: 'flex',
     justifyContent: "space-around",
@@ -258,6 +264,10 @@ const CSS = {
     padding: "12px",
     width: '150px',
     backgroundColor: '#9DF0A4'
+  },
+  slimBouton : {
+    width : "45px",
+    backgroundColor: 'rgba(200,200,200,0.2)',
   }
 }
 
