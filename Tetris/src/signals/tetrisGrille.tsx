@@ -39,12 +39,13 @@ function resetBoard():void {
 function initHighScore():void {
 
     const localHighScore = localStorage.getItem(localStorageName);
+    const highScoreNumber = Number(localHighScore);
 
-    if (localHighScore == null) {
+    if (Number.isNaN(highScoreNumber)) {
         localStorage.setItem(localStorageName,(0).toString())
     
     } else {
-        highScore.value = parseInt(localHighScore);
+        highScore.value = highScoreNumber;
     }
 
 }

@@ -89,6 +89,11 @@ export class TetraminoCube extends Tetramino {
    constructor(position: coord){
       super(position,[new Bloc(axe,3,1),new Bloc(axe,2,1),new Bloc(diag,2,1)],1);
    }
+
+   turnTrigo(): void {
+      
+   }
+
 }
 
 export class TetraminoLigne extends Tetramino {
